@@ -1,8 +1,8 @@
 use clap::Parser;
-use rs_cli::{process_csv, Opts, SubCommand};
+use rs_cli::{process_csv, process_gen_pass, Opts, SubCommand};
 
 fn main() -> anyhow::Result<()> {
-    /// 获取命令参数
+    // 获取命令参数
     let opts = Opts::parse();
 
     match opts.cmd {
@@ -16,6 +16,9 @@ fn main() -> anyhow::Result<()> {
 
             // 处理
             process_csv(&opts.input, &output, opts.format)?
+        }
+        SubCommand::GenPass(opts) => {
+            process_gen_pass(opts.length, opts.uppercase, opts.lowercase, opts.number, opts.symbol)?;
         }
     }
     Ok(())

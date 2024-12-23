@@ -5,7 +5,9 @@ use clap::Parser;
 #[derive(Debug, Parser)]
 pub enum SubCommand {
     #[command(name = "csv", about = "Show CSV or convert CSV to other formats")]
-    Csv(CsvOpts)
+    Csv(CsvOpts),
+    #[command(name = "genpass", about = "Generate a random password" )]
+    GenPass(GenPassOpts)
 }
 
 #[derive(Debug, Parser)]
@@ -31,6 +33,24 @@ pub struct CsvOpts {
 
     #[arg(long, default_value_t = true)]
     pub header: bool
+}
+
+#[derive(Debug, Parser)]
+pub struct GenPassOpts {
+    #[arg(short, long, value_parser = verify_input_passwd_len, default_value_t = 8)]
+    pub length: u8,
+
+    #[arg(long, default_value_t = true)]
+    pub uppercase: bool,
+
+    #[arg(long, default_value_t = true)]
+    pub lowercase: bool,
+
+    #[arg(long, default_value_t = true)]
+    pub number: bool,
+
+    #[arg(long, default_value_t = true)]
+    pub symbol: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -86,6 +106,22 @@ fn verify_input_file(filename: &str) -> Result<String, String> {
     } else {
         Err(format!("{} does not exist", filename))
     }
+}
+
+fn verify_input_passwd_len(length: &str) -> Result<u8, String> {
+    let len = length.parse::<u8>();
+
+    if len.is_err() {
+        return Err(format!("{} is too large", length))
+    }
+
+    let len = len.unwrap();
+
+    if len < 3 {
+        return Err(format!("{} is too small", length))
+    }
+
+    Ok(len)
 }
 
 fn parse_format(format: &str) -> Result<OutputFormat, anyhow::Error> {
