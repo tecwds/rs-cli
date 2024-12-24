@@ -15,7 +15,7 @@ fn main() -> anyhow::Result<()> {
             };
 
             // 处理
-            process_csv(&opts.input, &output, opts.format)?
+            process_csv(&opts.input, &output, opts.delimiter, opts.format)?
         }
         SubCommand::GenPass(opts) => {
             process_gen_pass(opts.length, opts.uppercase, opts.lowercase, opts.number, opts.symbol)?;
