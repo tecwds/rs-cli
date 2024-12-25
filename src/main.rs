@@ -1,5 +1,7 @@
 use clap::Parser;
-use rs_cli::{process_csv, process_gen_pass, Base64SubCommand, Opts, SubCommand};
+use rs_cli::{
+    process_csv, process_decode, process_encode, process_gen_pass, Base64SubCommand, GenPassProps, Opts, SubCommand
+};
 
 fn main() -> anyhow::Result<()> {
     // 获取命令参数
@@ -19,20 +21,18 @@ fn main() -> anyhow::Result<()> {
         }
         SubCommand::GenPass(opts) => {
             process_gen_pass(
-                opts.length,
-                opts.uppercase,
-                opts.lowercase,
-                opts.number,
-                opts.symbol,
+                &GenPassProps {
+                    length: opts.length,
+                    upper: opts.uppercase,
+                    lower: opts.lowercase,
+                    number: opts.number,
+                    symbol: opts.symbol
+                }
             )?;
         }
         SubCommand::Base64(base64) => match base64 {
-            Base64SubCommand::Encode(opts) => {
-                println!("encode: {:?}", opts);
-            }
-            Base64SubCommand::Decode(opts) => {
-                println!("decode: {:?}", opts)
-            }
+            Base64SubCommand::Encode(opts) => process_encode(&opts.input)?,
+            Base64SubCommand::Decode(opts) => process_decode(&opts.input)?,
         },
     }
     Ok(())

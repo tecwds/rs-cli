@@ -34,11 +34,12 @@ pub struct Base64DecodeOpts {
 #[derive(Debug, Clone)]
 pub enum Base64Format {
     Standard,
-    UrlSafe
+    UrlSafe,
 }
 
-fn parse_base64_format(format: &str) -> Result<Base64Format, &'static str>{
-//    format.parse::<Base64Format>()
+fn parse_base64_format(format: &str) -> Result<Base64Format, &'static str> {
+    println!("try to format {}", format);
+    //    format.parse::<Base64Format>()
     Ok(Base64Format::Standard)
 }
 
@@ -49,7 +50,7 @@ impl FromStr for Base64Format {
         match s.to_lowercase().as_str() {
             "standard" => Ok(Base64Format::Standard),
             "urlsafe" => Ok(Base64Format::UrlSafe),
-            _ => Err(anyhow::anyhow!("Invalid format"))
+            _ => Err(anyhow::anyhow!("Invalid format")),
         }
     }
 }
@@ -62,5 +63,3 @@ impl From<Base64Format> for &'static str {
         }
     }
 }
-
-

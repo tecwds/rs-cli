@@ -59,8 +59,6 @@ fn verify_input_passwd_len(length: &str) -> Result<u8, String> {
     Ok(len)
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
