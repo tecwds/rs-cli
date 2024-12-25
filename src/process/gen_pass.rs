@@ -10,7 +10,7 @@ pub fn process_gen_pass(
     upper: bool,
     lower: bool,
     number: bool,
-    symbol: bool
+    symbol: bool,
 ) -> anyhow::Result<()> {
     let mut rng = rand::thread_rng();
     let mut passwd = Vec::new();
@@ -33,7 +33,7 @@ pub fn process_gen_pass(
         passwd.push(*SYMBOL.choose(&mut rng).expect("UPPER won't be empty"));
     }
 
-    for _ in 0..(length as usize - passwd.len()){
+    for _ in 0..(length as usize - passwd.len()) {
         let c = chars
             .choose(&mut rng)
             .expect("chars won't be empty in this context");

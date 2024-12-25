@@ -1,3 +1,4 @@
+mod b64;
 mod csv_convert;
 mod gen_pass;
 
