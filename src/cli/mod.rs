@@ -4,6 +4,7 @@ mod gen;
 
 pub use self::csv::CsvOpts;
 pub use self::csv::OutputFormat;
+pub use base64::Base64Format;
 pub use base64::Base64SubCommand;
 
 pub use gen::GenPassOpts;

@@ -14,10 +14,7 @@ pub struct GenPassProps {
     pub symbol: bool,
 }
 
-
-pub fn process_gen_pass(
-    props: &GenPassProps,
-) -> anyhow::Result<()> {
+pub fn process_gen_pass(props: &GenPassProps) -> anyhow::Result<()> {
     let mut rng = rand::thread_rng();
     let mut passwd = Vec::new();
     let mut chars = Vec::new();

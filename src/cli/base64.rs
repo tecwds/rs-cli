@@ -38,8 +38,7 @@ pub enum Base64Format {
 }
 
 fn parse_base64_format(format: &str) -> Result<Base64Format, &'static str> {
-    // TODO: feat(select format from cli)
-    Ok(Base64Format::Standard)
+    Ok(Base64Format::from_str(format).expect("Invalid format"))
 }
 
 impl FromStr for Base64Format {

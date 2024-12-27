@@ -1,19 +1,47 @@
 use std::io::Read;
 
-use base64::{engine::general_purpose::URL_SAFE, Engine};
+use base64::{engine::general_purpose::{STANDARD, URL_SAFE}, Engine};
 
-pub fn process_encode(input: &str) -> anyhow::Result<()> {
+use crate::cli::Base64Format;
+
+pub fn process_encode(
+    input: &str,
+    format: Base64Format
+) -> anyhow::Result<()> {
     let content = parse_from_file(input)?;
 
-    let encoded = URL_SAFE.encode(content);
-    println!("{}", encoded);
+    let encode = match format {
+        Base64Format::Standard => {
+            STANDARD.encode(content)
+        }
+        Base64Format::UrlSafe => {
+            URL_SAFE.encode(content)
+        }
+    };
+
+    println!("{}", encode);
+
     Ok(())
 }
 
-pub fn process_decode(input: &str) -> anyhow::Result<()> {
-    let decode = input;
+pub fn process_decode(
+    input: &str,
+    format: Base64Format
+) -> anyhow::Result<()> {
+    let content = parse_from_file(input)?;
 
-    println!("{}", decode);
+    let decode = match format {
+        Base64Format::Standard => {
+            println!("{:?}", STANDARD.decode(&content));
+            STANDARD.decode(&content)?
+        }
+        Base64Format::UrlSafe => {
+            println!("{:?}", URL_SAFE.decode(&content.as_bytes()));
+            URL_SAFE.decode(&content)?
+        },
+    };
+
+    println!("ok");
     Ok(())
 }
 
