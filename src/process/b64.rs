@@ -30,18 +30,20 @@ pub fn process_decode(
 ) -> anyhow::Result<()> {
     let content = parse_from_file(input)?;
 
+    let content = content.replace("\n", "").replace("\r", "").trim().to_string();
+
     let decode = match format {
         Base64Format::Standard => {
-            println!("{:?}", STANDARD.decode(&content));
+            // println!("{:?}", STANDARD.decode(&content));
             STANDARD.decode(&content)?
         }
         Base64Format::UrlSafe => {
-            println!("{:?}", URL_SAFE.decode(&content.as_bytes()));
+            // println!("{:?}", URL_SAFE.decode(&content));
             URL_SAFE.decode(&content)?
         },
     };
 
-    println!("ok");
+    println!("{}", String::from_utf8(decode)?);
     Ok(())
 }
 
